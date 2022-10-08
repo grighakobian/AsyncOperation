@@ -83,9 +83,15 @@ open class AsyncOperation: Operation {
         startOperation()
         main()
     }
-
+    
     open override func main() {
-        fatalError("Subclasses must implement `main` without overriding super.")
+        run(onCompleted: { [weak self] in
+            self?.completeOperation()
+        })
+    }
+    
+    open func run(onCompleted: @escaping ()-> Void) {
+        fatalError("run(onCompleted:) is not overriden.")
     }
     
     internal func completeOperation() {
