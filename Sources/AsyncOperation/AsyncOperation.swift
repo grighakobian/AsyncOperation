@@ -27,7 +27,7 @@ open class AsyncOperation: Operation {
     internal var _isExecuting: Bool
     internal var _isFinished: Bool
     internal let _lock: NSRecursiveLock
-        
+    
     override init() {
         self._isExecuting = false
         self._isFinished = false
@@ -81,25 +81,29 @@ open class AsyncOperation: Operation {
             return
         }
         startOperation()
-        main()
-    }
-    
-    open override func main() {
         run(onCompleted: { [weak self] in
             self?.completeOperation()
         })
     }
     
+    /// Begins the execution of the async operation.
+    ///
+    /// - Parameter onCompleted: Closure to be called when the async operation is completed.
     open func run(onCompleted: @escaping ()-> Void) {
         fatalError("run(onCompleted:) is not overriden.")
     }
+}
+
+// MARK: - Internal
+
+internal extension AsyncOperation {
     
-    internal func completeOperation() {
+    func completeOperation() {
         isExecuting = false
         isFinished = true
     }
     
-    internal func startOperation() {
+    func startOperation() {
         isFinished = false
         isExecuting = true
     }
