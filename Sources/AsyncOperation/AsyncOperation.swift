@@ -28,7 +28,7 @@ open class AsyncOperation: Operation {
     internal var _isFinished: Bool
     internal let _lock: NSRecursiveLock
     
-    override init() {
+    public override init() {
         self._isExecuting = false
         self._isFinished = false
         self._lock = NSRecursiveLock()
